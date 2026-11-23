@@ -1,0 +1,41 @@
+{
+  "name": "radar-alocacao",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Radar de Alocação: bench, contratos vencendo, concentração por cliente e matching de vagas com IA",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "eval": "tsx scripts/eval-matching.ts",
+    "eval:sinais": "tsx scripts/eval-sinais.ts",
+    "exportar:nexo": "tsx scripts/exportar-nexo.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
+    "papaparse": "^5.5.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "read-excel-file": "^5.8.8"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "*",
+    "@electric-sql/pglite": "^0.5.16",
+    "@playwright/test": "^1.65.0",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.9",
+    "@types/node": "^26.6.6",
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "jsdom": "^31.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

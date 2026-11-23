@@ -1,0 +1,39 @@
+-- Busca semanal das notícias dos clientes (toda segunda às 7h de São Paulo = 10h UTC).
+-- Dispara uma chamada por empresa (o pg_net faz as chamadas em paralelo), para nenhuma estourar o tempo da função.
+-- Antes: em Database > Extensions, ative pg_cron e pg_net.
+-- Troque <ref> pelo id do projeto e <CHAVE_AGENDAMENTO> pelo mesmo valor gravado com
+--   npx supabase secrets set CHAVE_AGENDAMENTO=...
+-- Rode no SQL Editor. Este arquivo não é uma migração porque leva a URL e a chave do projeto.
+
+select cron.schedule(
+  'sinais-semanal',
+  '0 10 * * 1',
+  $$
+  select net.http_post(
+    url := 'https://<ref>.supabase.co/functions/v1/sinais',
+    headers := jsonb_build_object('Content-Type', 'application/json', 'x-chave-agendamento', '<CHAVE_AGENDAMENTO>'),
+    body := jsonb_build_object('empresaId', id),
+    timeout_milliseconds := 120000
+  )
+  from empresas;
+  $$
+);
+
+-- Para conferir: select * from cron.job;  Para remover: select cron.unschedule('sinais-semanal');
+
+-- Ponto em dia: lembretes de marcação, de segunda a sexta às 9h de São Paulo (12h UTC), uma chamada por empresa.
+-- Usa a mesma CHAVE_AGENDAMENTO. Antes: publique a função ponto e grave RESEND_API_KEY e PONTO_REMETENTE.
+select cron.schedule(
+  'ponto-diario',
+  '0 12 * * 1-5',
+  $$
+  select net.http_post(
+    url := 'https://<ref>.supabase.co/functions/v1/ponto',
+    headers := jsonb_build_object('Content-Type', 'application/json', 'x-chave-agendamento', '<CHAVE_AGENDAMENTO>'),
+    body := jsonb_build_object('empresaId', id),
+    timeout_milliseconds := 120000
+  )
+  from empresas;
+  $$
+);
+-- Para remover: select cron.unschedule('ponto-diario');
