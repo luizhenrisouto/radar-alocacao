@@ -96,7 +96,7 @@ export function mensagemPessoa(c: ColaboradorPonto, pendencias: Pendencia[], hoj
     texto: [
       `Olá, ${primeiroNome(c.nome)}.`,
       "",
-      `Encontramos ${dias} no seu ponto que precisam de revisão:`,
+      `Encontramos ${dias} no seu ponto que ${lista.length === 1 ? "precisa" : "precisam"} de revisão:`,
       ...lista.map((p) => `- ${rotuloDia(p.data)}: ${ROTULO_TIPO[p.tipo]}`),
       "",
       `Por favor, ajuste no Senior até ${ddmm(proximoDiaUtil(hoje))}. Se já ajustou, desconsidere esta mensagem.`,

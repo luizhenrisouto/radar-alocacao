@@ -133,7 +133,9 @@ describe("mensagens", () => {
     expect(m.texto).toContain("- 05/11 (qui): marcação incompleta");
     expect(m.texto).toContain("Por favor, ajuste no Senior até 20/11. Se já ajustou, desconsidere esta mensagem.");
     expect(m.texto).toContain("Obrigado,\nRH");
-    expect(mensagemPessoa(col("1"), [pend("p1", "1", "2026-11-03")], HOJE, "RH").assunto).toBe("Ponto: 1 dia para revisar");
+    const um = mensagemPessoa(col("1"), [pend("p1", "1", "2026-11-03")], HOJE, "RH");
+    expect(um.assunto).toBe("Ponto: 1 dia para revisar");
+    expect(um.texto).toContain("Encontramos 1 dia no seu ponto que precisa de revisão:");
   });
 
   test("nome em maiúsculas do Senior vira só a inicial maiúscula", () => {
