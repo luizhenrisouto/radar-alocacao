@@ -15,11 +15,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publicar:
+  # Montar e publicar ficam em jobs separados (formato recomendado pelo GitHub): no mesmo job, o deploy às vezes
+  # procura o pacote um segundo depois do upload e não o encontra ("No artifacts named github-pages").
+  montar:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -37,5 +36,13 @@ jobs:
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist
+
+  publicar:
+    needs: montar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
       - id: deploy
         uses: actions/deploy-pages@v5
