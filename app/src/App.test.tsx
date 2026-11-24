@@ -60,3 +60,12 @@ test("depois de importar, a confirmação e os erros do servidor continuam na te
   expect(await screen.findByText("2 linhas gravadas.")).toBeInTheDocument();
   expect(screen.getByText("Linha 3: consultor não encontrado: x@y.com")).toBeInTheDocument();
 });
+
+test("com logo no tema, o topo mostra a imagem; sem logo, não", async () => {
+  const { unmount } = render(<App demo={apiDemo()} real={null} hoje="2026-11-24" logo="/logo.png" />);
+  expect(await screen.findByRole("img", { name: "Logo" })).toBeInTheDocument();
+  unmount();
+  render(<App demo={apiDemo()} real={null} hoje="2026-11-24" />);
+  await screen.findByText("Demonstração: Nexo Consultoria (dados fictícios)");
+  expect(screen.queryByRole("img", { name: "Logo" })).toBeNull();
+});

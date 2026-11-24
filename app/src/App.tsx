@@ -21,9 +21,9 @@ export interface PropsTela {
   foco?: string | null;
 }
 
-interface Props { demo: Api; real: Api | null; hoje?: string }
+interface Props { demo: Api; real: Api | null; hoje?: string; /** Logo do tema, no lugar do sinal redondo. */ logo?: string }
 
-export default function App({ demo, real, hoje = hojeSaoPaulo() }: Props) {
+export default function App({ demo, real, hoje = hojeSaoPaulo(), logo }: Props) {
   const [api, setApi] = useState<Api>(demo);
   const [usuario, setUsuario] = useState<string | null>(null);
   const [entrando, setEntrando] = useState(false);
@@ -65,7 +65,7 @@ export default function App({ demo, real, hoje = hojeSaoPaulo() }: Props) {
     <div className="app">
       <header className="topo">
         <div className="marca">
-          <span className="marca-sinal" aria-hidden="true" />
+          {logo ? <img className="marca-logo" src={logo} alt="Logo" /> : <span className="marca-sinal" aria-hidden="true" />}
           <span>Radar de Alocação</span>
         </div>
         {api.modo === "real" ? (

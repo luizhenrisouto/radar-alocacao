@@ -82,6 +82,14 @@ ANTHROPIC_API_KEY=... npx tsx scripts/gerar-explicacoes.ts
 
 O workflow `.github/workflows/pages.yml` testa, faz o build e publica no GitHub Pages a cada push na `main`. Ative o Pages com a origem "GitHub Actions" nas configurações do repositório.
 
+## Cores da empresa
+
+As cores e as fontes ficam em `app/src/temas.ts`, um bloco por empresa (hoje: `datum`, o padrão, e `radar`, o visual neutro). Para outra empresa:
+1. Copie um bloco de `TEMAS`, dê um `id` novo e troque as cores do modo claro e do escuro, as fontes e, se quiser, o `logo` (imagem no topo).
+2. Escolha o tema no build com `VITE_TEMA=<id>`. No GitHub Pages, crie a variável `VITE_TEMA` do repositório. Sem ela, ou com um id que não existe, o app usa o padrão.
+
+O alerta (âmbar) e o crítico (vermelho) devem manter o significado em qualquer tema. O `npm test` confere o contraste de todos os temas e recusa combinações ilegíveis.
+
 ## Dados e LGPD
 
 A demonstração usa só dados fictícios, inclusive as notícias e o ponto de exemplo. No modo real, cada usuário vê apenas os dados da própria empresa (RLS). O que vai para a IA:
